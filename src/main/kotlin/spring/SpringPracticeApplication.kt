@@ -4,6 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.data.annotation.Id
+import org.springframework.data.relational.core.mapping.Table
 
 @SpringBootApplication
 class SpringPracticeApplication
@@ -21,7 +23,7 @@ class MessageResource {
 		Message("3", "Privet!"),
 	)
 }
-
-data class Message(val id: String?, val text: String)
+@Table("messages")
+data class Message(@Id val id: String?, val text: String)
 
 
