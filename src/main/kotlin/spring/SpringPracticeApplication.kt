@@ -9,6 +9,8 @@ import org.springframework.data.relational.core.mapping.Table
 import org.springframework.data.jdbc.repository.query.Query
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Service
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.PostMapping
 
 @SpringBootApplication
 class SpringPracticeApplication
@@ -18,13 +20,14 @@ fun main(args: Array<String>) {
 }
 
 @RestController
-class MessageResource {
+class MessageResource(val service: MessageService) {
 	@GetMapping
-	fun index(): List<Message> = listOf(
-		Message("1", "Hello"),
-		Message("2", "Bonjour"),
-		Message("3", "Privet!"),
-	)
+	fun index(): List<Message> = service.findMessages()
+
+	@PostMapping
+	fun post(@RequestBody message: Message) {
+		service.post(message)
+	}
 }
 @Table("messages")
 data class Message(@Id val id: String?, val text: String)
